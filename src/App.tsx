@@ -180,7 +180,7 @@ export default function App() {
         .fromTo(".hero-image", { scale: 1.055 }, { scale: 1, duration: 2.15, ease: "power1.out" }, 0)
         .fromTo(".hero-shade", { opacity: 0 }, { opacity: 1, duration: 1.2 }, 0.2)
         .fromTo(
-          ".hero-kicker, .hero-title, .hero-subtitle",
+          ".hero-kicker, .hero-title",
           { opacity: 0, y: 26 },
           { opacity: 1, y: 0, duration: 0.85, stagger: 0.13 },
           0.62
@@ -387,7 +387,6 @@ export default function App() {
           <div className="hero-content content-width">
             <p className="hero-kicker">BARBEIRO <span /> PALMAS, TO</p>
             <h1 className="hero-title" id="hero-title">CARLOS<br /><em>ALEXANDRE.</em></h1>
-            <p className="hero-subtitle">Estilo é identidade.</p>
           </div>
           <div className="hero-actions">
             <a href="#agendamento" onClick={() => trackBookingClick("hero")}>AGENDAR <ArrowUpRight size={15} strokeWidth={1.6} aria-hidden="true" /></a>
