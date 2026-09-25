@@ -28,7 +28,7 @@ function easeOutCubic(t: number): number {
 
 export default function CardCarousel({
   cards,
-  speedSeconds = 32,
+  speedSeconds = 12,
   pauseDuration = 8000,
   targetService,
 }: CardCarouselProps) {
@@ -181,7 +181,12 @@ export default function CardCarousel({
           }
 
           // Quando a imagem chega exatamente ao centro
-          if (Math.abs(dist) <= 3.5) {
+          if (Math.abs(dist) <= 6.0) {
+            // Encaixa com precisão milimétrica no centro exato da tela
+            newX = newX - dist;
+            currentXRef.current = newX;
+            track.style.transform = `translate3d(${newX}px, 0, 0)`;
+
             isPausedRef.current = true;
             const card = item.element;
 
@@ -322,7 +327,7 @@ export default function CardCarousel({
     const activeCard = chosenCard;
     const startX = currentXRef.current;
     const targetX = startX - minPositiveDist;
-    const duration = 1150; // 1.15 segundos para deslizar suavemente até o centro
+    const duration = 750; // 0.75s para deslizar com rapidez e suavidade até o centro
     const startTime = performance.now();
 
     const animateToTarget = (now: number) => {

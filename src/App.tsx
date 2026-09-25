@@ -414,7 +414,7 @@ export default function App() {
             <div className="experience-carousel-slot" id="experience-carousel-slot" data-reveal>
               <CardCarousel
                 cards={experienceCards}
-                speedSeconds={32}
+                speedSeconds={12}
                 pauseDuration={8000}
                 targetService={targetService}
               />
