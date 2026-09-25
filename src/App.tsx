@@ -372,18 +372,13 @@ export default function App() {
       <main id="conteudo">
         <section className="hero" id="inicio" aria-labelledby="hero-title">
           <div className="hero-media" aria-hidden="true">
-            <picture className="hero-picture">
-              <source media="(max-width: 700px)" srcSet="/images/hero-mobile.jpg" />
-              <img className="hero-image" src="/images/hero-barber.jpg" alt="" fetchPriority="high" />
-            </picture>
-
             <video
               className="hero-video"
               autoPlay
               loop
               muted
               playsInline
-              poster="/images/hero-barber.jpg"
+              preload="auto"
             >
               <source src="/images/hero-video.mp4" type="video/mp4" />
             </video>
