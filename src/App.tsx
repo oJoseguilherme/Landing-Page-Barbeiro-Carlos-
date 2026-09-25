@@ -7,102 +7,91 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   ArrowRight,
   ArrowUpRight,
-  Camera,
   ChevronLeft,
   ChevronRight,
+  MapPin,
   Menu,
+  MessageCircle,
+  Play,
   X,
 } from "lucide-react";
 
 import CardCarousel, { type CardItem } from "./components/ui/card-fan-carousel";
 import { HighlightedText } from "./components/highlighted-text";
 import { CountUp } from "./components/ui/count-up";
+import { trackBookingClick } from "./utils/analytics";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 const INSTAGRAM_URL = "https://www.instagram.com/carlos_alexandre_barbeiro/";
-const INSTAGRAM_DM_URL = "https://ig.me/m/carlos_alexandre_barbeiro";
+const WHATSAPP_URL = "https://api.whatsapp.com/message/OJAAQOSRN7NLG1?autoload=1&app_absent=0&utm_source=ig";
 
-const experienceCards: CardItem[] = [
+const services = [
   {
-    imgUrl: "https://images.pexels.com/photos/39559324/pexels-photo-39559324.jpeg?auto=compress&cs=tinysrgb&w=900",
-    alt: "Corte degradê masculino refinado e barba desenhada",
-    tag: "IDENTIDADE",
-    title: "Degradê e Alinhamento",
+    id: "corte",
+    number: "01",
+    title: "Corte",
+    tag: "01 • VISAGISMO & PRECISÃO",
+    description: "Corte — estilo e acabamento personalizado.",
+    imgUrl: "/images/corte.webp",
+    alt: "Corte degradê masculino refinado e barba desenhada pelo barbeiro Carlos Alexandre",
   },
   {
-    imgUrl: "https://images.pexels.com/photos/39559306/pexels-photo-39559306.jpeg?auto=compress&cs=tinysrgb&w=900",
-    alt: "Barbeiro executando corte com tesoura e pente de precisão",
-    tag: "TÉCNICA",
-    title: "Corte na Tesoura",
+    id: "barba",
+    number: "02",
+    title: "Barba",
+    tag: "02 • TOALHA QUENTE & NAVALHA",
+    description: "Barba — modelagem e acabamento para um visual alinhado.",
+    imgUrl: "/images/barba.webp",
+    alt: "Modelagem e desenho de barba masculina com toalha quente e lâmina",
   },
   {
-    imgUrl: "https://images.pexels.com/photos/18503657/pexels-photo-18503657.jpeg?auto=compress&cs=tinysrgb&w=900",
-    alt: "Modelagem e desenho de barba masculina com lâmina",
-    tag: "CUIDADO",
-    title: "Barba Esculpida",
+    id: "alisado",
+    number: "03",
+    title: "Alisado Capilar",
+    tag: "03 • ALINHAMENTO & BRILHO",
+    description: "Alisado Capilar — tratamento e acabamento para fios mais alinhados.",
+    imgUrl: "/images/alisamentoCapilar.webp",
+    alt: "Trabalho de alisamento capilar masculino com acabamento e brilho",
   },
   {
-    imgUrl: "https://images.pexels.com/photos/39559261/pexels-photo-39559261.jpeg?auto=compress&cs=tinysrgb&w=900",
-    alt: "Finalização de corte masculino com máquina e precisão",
-    tag: "PRECISÃO",
-    title: "Acabamento Perfeito",
+    id: "luzes",
+    number: "04",
+    title: "Luzes Capilares",
+    tag: "04 • ILUMINAÇÃO SOB MEDIDA",
+    description: "Luzes Capilares — iluminação e personalização do visual.",
+    imgUrl: "/images/luzesCapilares.webp",
+    alt: "Textura e iluminação de mechas e luzes capilares masculinas",
   },
   {
-    imgUrl: "https://images.pexels.com/photos/9992819/pexels-photo-9992819.jpeg?auto=compress&cs=tinysrgb&w=900",
-    alt: "Textura e detalhamento dos fios na barbearia",
-    tag: "TEXTURA",
-    title: "Estilo Contemporâneo",
-  },
-  {
-    imgUrl: "https://images.pexels.com/photos/39559325/pexels-photo-39559325.jpeg?auto=compress&cs=tinysrgb&w=900",
-    alt: "Homem com visual impecável após atendimento na barbearia",
-    tag: "RESULTADO",
-    title: "Presença Masculina",
-  },
-  {
-    imgUrl: "https://images.pexels.com/photos/4625621/pexels-photo-4625621.jpeg?auto=compress&cs=tinysrgb&w=900",
-    alt: "Atendimento personalizado de cuidado com a barba",
-    tag: "RITUAL",
-    title: "Experiência Completa",
+    id: "platinado",
+    number: "05",
+    title: "Platinado Global",
+    tag: "05 • TOM UNIFORME & IMPACTO",
+    description: "Platinado Global — transformação completa com acabamento profissional.",
+    imgUrl: "/images/platinadoGlobal.webp",
+    alt: "Platinado global masculino de alto impacto e tom uniforme",
   },
 ];
+
+const experienceCards: CardItem[] = services.map((s) => ({
+  id: s.id,
+  number: s.number,
+  title: s.title,
+  tag: s.tag,
+  description: s.description,
+  imgUrl: s.imgUrl,
+  alt: s.alt,
+  linkUrl: WHATSAPP_URL,
+}));
 
 const navigation = [
   { label: "Início", href: "#inicio" },
   { label: "Experiência", href: "#experiencia" },
   { label: "Sobre", href: "#sobre" },
   { label: "Serviços", href: "#servicos" },
-  { label: "Trabalhos", href: "#trabalhos" },
+  { label: "Localização", href: "#localizacao" },
   { label: "Contato", href: "#agendamento" },
-];
-
-const services = [
-  {
-    number: "01",
-    title: "Corte masculino",
-    description: "Cortes personalizados de acordo com o formato do rosto e o estilo pessoal.",
-  },
-  {
-    number: "02",
-    title: "Barba",
-    description: "Modelagem e acabamento profissional para cada detalhe fazer a diferença.",
-  },
-  {
-    number: "03",
-    title: "Alisamento capilar",
-    description: "Alinhamento e redução de volume com acabamento natural e fios saudáveis.",
-  },
-  {
-    number: "04",
-    title: "Luzes capilares",
-    description: "Iluminação e contraste sob medida para valorizar seu corte e seu estilo.",
-  },
-  {
-    number: "05",
-    title: "Platinado Global",
-    description: "Descoloração e matização de alta precisão para um tom platinado uniforme e marcante.",
-  },
 ];
 
 const portfolio = [
@@ -132,18 +121,22 @@ const portfolio = [
   },
 ];
 
+
 const instagramPhotos = [
   {
-    src: "https://images.pexels.com/photos/9992819/pexels-photo-9992819.jpeg?auto=compress&cs=tinysrgb&w=900",
-    alt: "Detalhe de um corte de cabelo sendo realizado na barbearia",
+    src: "/images/capaVideo1.webp",
+    alt: "Corte e acabamento de alta precisão por Carlos Alexandre Barbeiro",
+    url: "https://www.instagram.com/p/DdHVnZDpxk7/",
   },
   {
-    src: "https://images.pexels.com/photos/39559325/pexels-photo-39559325.jpeg?auto=compress&cs=tinysrgb&w=900",
-    alt: "Perfil de um homem com corte masculino moderno",
+    src: "/images/capaVideo2.webp",
+    alt: "Estilo e modelagem de barba profissional por Carlos Alexandre Barbeiro",
+    url: "https://www.instagram.com/p/Dc56mJAOWld/",
   },
   {
-    src: "https://images.pexels.com/photos/4625621/pexels-photo-4625621.jpeg?auto=compress&cs=tinysrgb&w=900",
-    alt: "Cliente recebendo cuidados de barba na barbearia",
+    src: "/images/capaVideo3.webp",
+    alt: "Transformação e cuidado visual por Carlos Alexandre Barbeiro",
+    url: "https://www.instagram.com/p/Dc118kIuAKc/",
   },
 ];
 
@@ -160,6 +153,18 @@ export default function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeImage, setActiveImage] = useState<number | null>(null);
   const [whatsAppNoticeOpen, setWhatsAppNoticeOpen] = useState(false);
+  const [targetService, setTargetService] = useState<{ id: string; timestamp: number } | null>(null);
+
+  const handleSelectService = (serviceId: string) => {
+    setTargetService({ id: serviceId, timestamp: Date.now() });
+
+    const carouselSlot =
+      document.getElementById("experience-carousel-slot") ||
+      document.getElementById("experiencia");
+    if (carouselSlot) {
+      carouselSlot.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  };
 
   useGSAP(
     () => {
@@ -206,21 +211,6 @@ export default function App() {
           }
         );
       });
-
-
-      gsap.fromTo(
-        ".manifesto-line",
-        { clipPath: "inset(100% 0% 0% 0%)", opacity: 0, y: 32 },
-        {
-          clipPath: "inset(0% 0% 0% 0%)",
-          opacity: 1,
-          y: 0,
-          duration: 1.05,
-          ease: "power3.out",
-          stagger: 0.16,
-          scrollTrigger: { trigger: ".manifesto-heading", start: "top 80%", once: true },
-        }
-      );
     },
     { scope: rootRef }
   );
@@ -297,6 +287,7 @@ export default function App() {
     };
   }, [galleryIsOpen]);
 
+
   useEffect(() => {
     if (!whatsAppNoticeOpen) return;
     const onKeyDown = (event: KeyboardEvent) => {
@@ -306,7 +297,7 @@ export default function App() {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [whatsAppNoticeOpen]);
 
-  const animateService = (event: MouseEvent<HTMLAnchorElement>, entering: boolean) => {
+  const animateService = (event: MouseEvent<HTMLElement>, entering: boolean) => {
     if (prefersReducedMotion()) return;
     const number = event.currentTarget.querySelector(".service-index");
     const arrow = event.currentTarget.querySelector(".service-arrow");
@@ -328,10 +319,7 @@ export default function App() {
     }
   };
 
-  const openGallery = (index: number, event: MouseEvent<HTMLButtonElement>) => {
-    galleryOpenerRef.current = event.currentTarget;
-    setActiveImage(index);
-  };
+
 
   return (
     <div className="site-shell" ref={rootRef}>
@@ -350,7 +338,7 @@ export default function App() {
             ))}
           </nav>
 
-          <a className="header-book" href="#agendamento">
+          <a className="header-book" href="#agendamento" onClick={() => trackBookingClick("header")}>
             AGENDAR <ArrowUpRight size={15} strokeWidth={1.6} aria-hidden="true" />
           </a>
           <button
@@ -374,7 +362,7 @@ export default function App() {
                 <span>{String(index + 1).padStart(2, "0")}</span>{item.label}
               </a>
             ))}
-            <a className="mobile-menu-book mobile-menu-link" href="#agendamento" onClick={() => setMenuOpen(false)}>
+            <a className="mobile-menu-book mobile-menu-link" href="#agendamento" onClick={() => { trackBookingClick("mobile_menu"); setMenuOpen(false); }}>
               Agendar horário <ArrowUpRight size={22} strokeWidth={1.4} aria-hidden="true" />
             </a>
           </div>
@@ -388,6 +376,17 @@ export default function App() {
               <source media="(max-width: 700px)" srcSet="/images/hero-mobile.jpg" />
               <img className="hero-image" src="/images/hero-barber.jpg" alt="" fetchPriority="high" />
             </picture>
+
+            <video
+              className="hero-video"
+              autoPlay
+              loop
+              muted
+              playsInline
+              poster="/images/hero-barber.jpg"
+            >
+              <source src="/images/hero-video.mp4" type="video/mp4" />
+            </video>
           </div>
           <div className="hero-shade" aria-hidden="true" />
           <div className="hero-content content-width">
@@ -396,8 +395,8 @@ export default function App() {
             <p className="hero-subtitle">Estilo é identidade.</p>
           </div>
           <div className="hero-actions">
-            <a href="#agendamento">AGENDAR <ArrowUpRight size={15} strokeWidth={1.6} aria-hidden="true" /></a>
-            <a href="#trabalhos">TRABALHOS <ArrowRight size={15} strokeWidth={1.6} aria-hidden="true" /></a>
+            <a href="#agendamento" onClick={() => trackBookingClick("hero")}>AGENDAR <ArrowUpRight size={15} strokeWidth={1.6} aria-hidden="true" /></a>
+            <a href="#localizacao">LOCALIZAÇÃO <ArrowRight size={15} strokeWidth={1.6} aria-hidden="true" /></a>
           </div>
         </section>
 
@@ -410,7 +409,7 @@ export default function App() {
               <h2 className="section-title experience-title" id="experience-title">
                 NÃO É APENAS<br />
                 <em>
-                  <HighlightedText from="left" inView={true} delay={0.2} highlightClassName="about-highlight-bg">
+                  <HighlightedText from="left" inView={true} delay={0.2} highlightClassName="experience-highlight-bg">
                     UM CORTE.
                   </HighlightedText>
                 </em>
@@ -419,14 +418,19 @@ export default function App() {
 
             {/* Carrossel Marquee contínuo e infinito */}
             <div className="experience-carousel-slot" id="experience-carousel-slot" data-reveal>
-              <CardCarousel cards={experienceCards} speedSeconds={25} />
+              <CardCarousel
+                cards={experienceCards}
+                speedSeconds={32}
+                pauseDuration={8000}
+                targetService={targetService}
+              />
             </div>
 
             <div className="experience-footer" data-reveal>
               <p className="experience-description">
                 Cada etapa importa. Do primeiro olhar ao último detalhe, tudo é pensado para você sair sendo ainda mais você.
               </p>
-              <a className="experience-book-btn" href="#agendamento">
+              <a className="experience-book-btn" href="#agendamento" onClick={() => trackBookingClick("experience")}>
                 AGENDAR HORÁRIO <ArrowUpRight size={16} strokeWidth={1.6} aria-hidden="true" />
               </a>
             </div>
@@ -451,7 +455,7 @@ export default function App() {
               <div className="about-facts" data-reveal>
                 <div className="about-years">
                   <strong>
-                    <CountUp end={8} duration={2600} className="about-years-number" />
+                    <CountUp end={8} duration={900} className="about-years-number" />
                     <sup>+</sup>
                   </strong>
                   <span className="about-years-label">ANOS DE<br />EXPERIÊNCIA</span>
@@ -459,13 +463,15 @@ export default function App() {
                 <p>BARBEIRO PROFISSIONAL<br /><span>PALMAS, TO</span></p>
               </div>
               <div className="about-action" data-reveal>
-                <a className="about-book-btn" href="#agendamento">
+                <a className="about-book-btn" href="#agendamento" onClick={() => trackBookingClick("about")}>
                   AGENDAR HORÁRIO <ArrowUpRight size={15} strokeWidth={1.6} aria-hidden="true" />
                 </a>
               </div>
             </div>
-            <div className="about-visual" data-reveal>
-              <img src="/images/about-barber.jpg" alt="Barbeiro concentrado no corte de cabelo de um cliente" loading="lazy" />
+            <div className="about-visual-wrapper" data-reveal>
+              <div className="about-visual">
+                <img src="/images/barbeiro.webp" alt="Carlos Alexandre Barbeiro em atendimento profissional em Palmas, TO" loading="lazy" />
+              </div>
             </div>
           </div>
         </section>
@@ -475,66 +481,121 @@ export default function App() {
             <div className="section-intro services-intro">
               <div>
                 <p className="section-kicker dark-kicker" data-reveal><span className="kicker-line" /> 03 / O QUE FAÇO</p>
-                <h2 className="section-title dark-title" id="services-title" data-reveal>SERVIÇOS</h2>
+                <h2 className="section-title dark-title" id="services-title" data-reveal>
+                  <em>
+                    <HighlightedText from="left" inView={true} delay={0.2} highlightClassName="services-highlight-bg">
+                      SERVIÇOS
+                    </HighlightedText>
+                  </em>
+                </h2>
               </div>
             </div>
             <div className="services-list">
               {services.map((service) => (
-                <a
+                <button
+                  type="button"
                   className="service-item"
-                  href="#agendamento"
                   key={service.number}
+                  onClick={() => handleSelectService(service.id)}
                   onMouseEnter={(event) => animateService(event, true)}
                   onMouseLeave={(event) => animateService(event, false)}
-                  aria-label={`${service.title}. Ir para agendamento`}
+                  aria-label={`${service.title}. Ver no carrossel de experiência`}
                 >
                   <span className="service-index">{service.number}</span>
-                  <div className="service-info"><h3>{service.title}</h3><p>{service.description}</p></div>
-                  <ArrowUpRight className="service-arrow" size={26} strokeWidth={1.2} aria-hidden="true" />
-                </a>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="portfolio section-pad" id="trabalhos" aria-labelledby="portfolio-title">
-          <div className="content-width">
-            <div className="section-intro portfolio-intro">
-              <div>
-                <p className="section-kicker" data-reveal><span className="kicker-line" /> 04 / TRABALHOS</p>
-                <h2 className="section-title" id="portfolio-title" data-reveal>SEU ESTILO.<br /><em>NOSSA ASSINATURA.</em></h2>
-              </div>
-              <p className="intro-note" data-reveal>Uma expressão única em cada detalhe.</p>
-            </div>
-            <div className="portfolio-grid" aria-label="Galeria de inspiração de cortes e barbas">
-              {portfolio.map((image, index) => (
-                <button
-                  className={`portfolio-tile portfolio-tile-${index + 1}`}
-                  type="button"
-                  key={image.src}
-                  onClick={(event) => openGallery(index, event)}
-                  aria-label={`Ampliar imagem ${index + 1}: ${image.title}`}
-                >
-                  <img src={image.src} alt={image.alt} loading="lazy" />
-                  <span className="portfolio-tile-shade" aria-hidden="true" />
-                  <span className="portfolio-caption"><span>{String(index + 1).padStart(2, "0")} / {image.detail}</span><strong>{image.title}</strong></span>
-                  <ArrowUpRight className="portfolio-open" size={22} strokeWidth={1.3} aria-hidden="true" />
+                  <div className="service-info">
+                    <h3>{service.title}</h3>
+                    <p>{service.description}</p>
+                  </div>
+                  <div className="service-action-hint">
+                    <span className="service-hint-badge">Ver experiência</span>
+                    <ArrowUpRight className="service-arrow" size={26} strokeWidth={1.2} aria-hidden="true" />
+                  </div>
                 </button>
               ))}
             </div>
-            <p className="portfolio-disclaimer">Imagens editoriais ilustrativas. Portfólio autoral em atualização.</p>
           </div>
         </section>
 
-        <section className="manifesto section-pad" aria-labelledby="manifesto-title">
-          <div className="content-width manifesto-inner">
-            <p className="section-kicker" data-reveal><span className="kicker-line" /> MAIS QUE APARÊNCIA</p>
-            <h2 className="manifesto-heading" id="manifesto-title">
-              <span className="manifesto-line">GRANDES HISTÓRIAS</span>
-              <span className="manifesto-line">COMEÇAM QUANDO</span>
-              <span className="manifesto-line">VOCÊ DECIDE</span>
-              <span className="manifesto-line"><em>OCUPAR O SEU LUGAR.</em></span>
-            </h2>
+        {/* SEÇÃO LOCALIZAÇÃO COM MAPA DARK MODE PREMIUM */}
+        <section className="location-section section-pad" id="localizacao" aria-labelledby="location-title">
+          <div className="content-width">
+            <div className="section-intro location-intro">
+              <div>
+                <p className="section-kicker" data-reveal><span className="kicker-line" /> 04 / LOCALIZAÇÃO</p>
+                <h2 className="section-title" id="location-title" data-reveal>
+                  ONDE ESTAMOS.<br />
+                  <em>
+                    <HighlightedText from="left" inView={true} delay={0.2} highlightClassName="location-highlight-bg">
+                      FÁCIL ACESSO.
+                    </HighlightedText>
+                  </em>
+                </h2>
+              </div>
+            </div>
+
+            <div className="map-wrapper" data-reveal>
+              <iframe
+                title="Localização Barbearia Toledo em Palmas - TO"
+                src="https://maps.google.com/maps?q=-10.1939695,-48.3329488&t=&z=17&ie=UTF8&output=embed"
+                className="map-iframe"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+              <div className="map-overlay" aria-hidden="true" />
+
+              {/* Ponteiro Vermelho Oficial e Vibrante */}
+              <a
+                className="map-pin-overlay"
+                href="https://maps.google.com/maps?ftid=0x9324cb005feacb21:0x37a0ae01b09f5824"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Abrir Barbearia Toledo no Google Maps"
+              >
+                <div className="map-pin-tooltip">
+                  <span className="map-pin-tooltip-dot" />
+                  BARBEARIA TOLEDO
+                </div>
+                <svg className="map-pin-icon" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5z" />
+                </svg>
+                <div className="map-pin-pulse" />
+                <div className="map-pin-dot" />
+              </a>
+
+              <div className="map-card">
+                {/* Foto da Barbearia / Fachada */}
+                <div className="map-card-thumb">
+                  <img
+                    src="/images/barbearia.webp"
+                    alt="Espaço da Barbearia em Palmas/TO"
+                    loading="lazy"
+                  />
+                  <span className="map-card-thumb-badge">BARBEARIA EXCLUSIVA</span>
+                </div>
+
+                <div className="map-card-header">
+                  <span className="map-badge-icon">
+                    <MapPin size={14} strokeWidth={2} aria-hidden="true" />
+                  </span>
+                  <span className="map-badge-tag">202 SUL — PALMAS, TO</span>
+                </div>
+                <strong className="map-card-address">
+                  AV. SIQUEIRA CAMPOS, CONJ 1 LOTE 13, SALA 1
+                </strong>
+                <p className="map-card-sub">
+                  ACSU-SE 20 (202 Sul) • Plano Diretor Sul, Palmas - TO • CEP 77020-450
+                </p>
+                <a
+                  className="map-card-link"
+                  href="https://maps.google.com/maps?ftid=0x9324cb005feacb21:0x37a0ae01b09f5824"
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Abrir rota no Google Maps"
+                >
+                  COMO CHEGAR <ArrowUpRight size={13} strokeWidth={1.8} aria-hidden="true" />
+                </a>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -543,7 +604,14 @@ export default function App() {
             <div className="section-intro instagram-intro">
               <div>
                 <p className="section-kicker dark-kicker" data-reveal><span className="kicker-line" /> 05 / NO INSTAGRAM</p>
-                <h2 className="section-title dark-title" id="instagram-title" data-reveal>ACOMPANHE<br /><em>O TRABALHO.</em></h2>
+                <h2 className="section-title dark-title" id="instagram-title" data-reveal>
+                  ACOMPANHE<br />
+                  <em>
+                    <HighlightedText from="left" inView={true} delay={0.2} highlightClassName="services-highlight-bg">
+                      O TRABALHO.
+                    </HighlightedText>
+                  </em>
+                </h2>
               </div>
               <div className="instagram-contact" data-reveal>
                 <p>@carlos_alexandre_barbeiro</p>
@@ -554,9 +622,31 @@ export default function App() {
             </div>
             <div className="instagram-images">
               {instagramPhotos.map((photo, index) => (
-                <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" key={photo.src} aria-label={`Abrir Instagram, foto ${index + 1}`}>
+                <a
+                  href={photo.url || INSTAGRAM_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  key={photo.src}
+                  aria-label={`Abrir vídeo do Instagram, publicação ${index + 1}`}
+                >
                   <img src={photo.src} alt={photo.alt} loading="lazy" />
-                  <span aria-hidden="true"><Camera size={22} strokeWidth={1.5} /></span>
+                  <div className="insta-card-shade" aria-hidden="true" />
+                  
+                  {/* Badge superior estilo Reels */}
+                  <div className="insta-card-badge">
+                    <Play size={10} fill="currentColor" aria-hidden="true" />
+                    <span>REELS</span>
+                  </div>
+
+                  {/* Play central interativo com efeito vidro */}
+                  <span className="insta-play-hover" aria-hidden="true">
+                    <Play size={22} fill="currentColor" />
+                  </span>
+
+                  {/* Rodapé com arroba oficial */}
+                  <div className="insta-card-footer">
+                    <span>@carlos_alexandre_barbeiro</span>
+                  </div>
                 </a>
               ))}
             </div>
@@ -566,31 +656,161 @@ export default function App() {
         <section className="booking section-pad" id="agendamento" aria-labelledby="booking-title">
           <div className="content-width booking-inner">
             <p className="section-kicker" data-reveal><span className="kicker-line" /> 06 / AGENDAMENTO</p>
-            <h2 className="section-title booking-title" id="booking-title" data-reveal>SEU PRÓXIMO<span className="booking-mobile-break"><br /></span> CORTE<br /><em>COMEÇA AQUI.</em></h2>
+            <h2 className="section-title booking-title" id="booking-title" data-reveal>
+              SEU PRÓXIMO<span className="booking-mobile-break"><br /></span> CORTE<br />
+              <em>
+                <HighlightedText from="left" inView={true} delay={0.2} highlightClassName="booking-highlight-bg">
+                  COMEÇA AQUI.
+                </HighlightedText>
+              </em>
+            </h2>
             <div className="booking-bottom" data-reveal>
-              <div><p>Escolha seu horário e venha viver uma experiência diferente.</p><span>PALMAS, TO</span></div>
-              <a className="booking-cta" href={INSTAGRAM_DM_URL} target="_blank" rel="noreferrer" aria-label="Agendar horário pelo direct do Instagram">
-                AGENDAR HORÁRIO <ArrowUpRight size={20} strokeWidth={1.5} aria-hidden="true" />
+              <div><span>202 SUL • PALMAS, TO</span></div>
+              <a className="booking-cta" href={WHATSAPP_URL} target="_blank" rel="noreferrer" onClick={() => trackBookingClick("booking_section")} aria-label="Agendar horário pelo WhatsApp">
+                AGENDAR HORÁRIO <ArrowUpRight size={20} strokeWidth={1.8} aria-hidden="true" />
               </a>
             </div>
           </div>
         </section>
       </main>
 
-      <footer className="footer">
+      <footer className="site-footer">
         <div className="content-width">
-          <div className="footer-top">
-            <div><p>CARLOS ALEXANDRE BARBEIRO</p><h2>ESTILO É <em>IDENTIDADE.</em></h2></div>
-            <a href="#inicio" aria-label="Voltar ao início">VOLTAR AO TOPO <ArrowUpRight size={16} strokeWidth={1.5} aria-hidden="true" /></a>
+          {/* Grid Principal com 4 Colunas e Breathing Room Generoso */}
+          <div className="footer-grid">
+            {/* Coluna 1: Marca */}
+            <div className="footer-col footer-col-brand">
+              <a className="footer-brand" href="#inicio" aria-label="Carlos Alexandre Barbeiro, ir para o início">
+                <span className="footer-brand-title">CARLOS ALEXANDRE</span>
+                <span className="footer-brand-sub">BARBEIRO</span>
+              </a>
+              <p className="footer-brand-desc">
+                Cortes de alta precisão, visagismo e atendimento exclusivo. Cada detalhe pensado para valorizar sua identidade e estilo no coração de Palmas.
+              </p>
+              <div className="footer-social-links">
+                <a
+                  href={INSTAGRAM_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="footer-social-icon"
+                  aria-label="Instagram de Carlos Alexandre"
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                    <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+                  </svg>
+                </a>
+                <button
+                  type="button"
+                  onClick={() => setWhatsAppNoticeOpen(true)}
+                  className="footer-social-icon"
+                  aria-label="WhatsApp de Carlos Alexandre"
+                >
+                  <MessageCircle size={18} strokeWidth={1.4} />
+                </button>
+                <a
+                  href="https://maps.google.com/maps?ftid=0x9324cb005feacb21:0x37a0ae01b09f5824"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="footer-social-icon"
+                  aria-label="Localização no Google Maps"
+                >
+                  <MapPin size={18} strokeWidth={1.4} />
+                </a>
+              </div>
+            </div>
+
+            {/* Coluna 2: Navegação */}
+            <div className="footer-col footer-col-nav">
+              <h3 className="footer-col-title">NAVEGAÇÃO</h3>
+              <ul className="footer-nav-list">
+                {navigation.map((item) => (
+                  <li key={item.href}>
+                    <a href={item.href} className="footer-nav-link">
+                      {item.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Coluna 3: Contato */}
+            <div className="footer-col footer-col-contact">
+              <h3 className="footer-col-title">CONTATO</h3>
+              <div className="footer-contact-info">
+                <div className="footer-info-item">
+                  <span className="footer-info-label">WhatsApp</span>
+                  <button
+                    type="button"
+                    onClick={() => setWhatsAppNoticeOpen(true)}
+                    className="footer-text-btn"
+                  >
+                    Conversar no WhatsApp
+                  </button>
+                </div>
+                <div className="footer-info-item">
+                  <span className="footer-info-label">Instagram</span>
+                  <a
+                    href={INSTAGRAM_URL}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="footer-text-link"
+                  >
+                    @carlos_alexandre_barbeiro
+                  </a>
+                </div>
+                <div className="footer-info-item">
+                  <span className="footer-info-label">Agendamento Online</span>
+                  <a
+                    href="#agendamento"
+                    className="footer-text-link"
+                    onClick={() => trackBookingClick("footer")}
+                  >
+                    Reservar horário exclusivo
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            {/* Coluna 4: Atendimento */}
+            <div className="footer-col footer-col-location">
+              <h3 className="footer-col-title">ATENDIMENTO</h3>
+              <div className="footer-location-info">
+                <div className="footer-info-item">
+                  <strong className="footer-place-name">BARBEARIA TOLEDO</strong>
+                  <p className="footer-address-line">ACSU-SE 20 (202 Sul), Av. Siqueira Campos</p>
+                  <p className="footer-address-line">Conj. 1, Lote 13, Sala 1 — Palmas, TO</p>
+                </div>
+                <div className="footer-hours-box">
+                  <span className="footer-hours-badge">HORÁRIO DE FUNCIONAMENTO</span>
+                  <div className="footer-hours-schedule">
+                    <div className="footer-schedule-row">
+                      <span>Segunda a Sexta</span>
+                      <strong>09:00–12:00 • 13:30–20:00</strong>
+                    </div>
+                    <div className="footer-schedule-row">
+                      <span>Sábado</span>
+                      <strong>09:00–16:00</strong>
+                    </div>
+                    <div className="footer-schedule-row">
+                      <span>Domingo</span>
+                      <em>Fechado</em>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="footer-bottom">
-            <span>PALMAS, TOCANTINS</span>
-            <nav aria-label="Links de contato">
-              <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer">Instagram</a>
-              <button type="button" onClick={() => setWhatsAppNoticeOpen(true)}>WhatsApp</button>
-              <a href="#agendamento">Agendamento</a>
-            </nav>
-            <span>© {new Date().getFullYear()} CARLOS ALEXANDRE</span>
+
+          {/* Seção Inferior (Bottom Bar) com Breathing Room Generoso */}
+          <div className="footer-bottom-bar">
+            <span className="footer-copyright">
+              © {new Date().getFullYear()} CARLOS ALEXANDRE — TODOS OS DIREITOS RESERVADOS.
+            </span>
+            <a href="#inicio" className="footer-back-to-top" aria-label="Voltar ao início da página">
+              VOLTAR AO TOPO ↑
+            </a>
           </div>
         </div>
       </footer>
@@ -611,14 +831,28 @@ export default function App() {
         </div>
       )}
 
+
       {whatsAppNoticeOpen && (
         <div className="contact-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) setWhatsAppNoticeOpen(false); }}>
           <div className="contact-dialog" role="dialog" aria-modal="true" aria-labelledby="contact-dialog-title">
             <button type="button" className="contact-close" onClick={() => setWhatsAppNoticeOpen(false)} aria-label="Fechar aviso"><X size={20} /></button>
-            <span className="section-kicker">CONTATO</span>
-            <h2 id="contact-dialog-title">Vamos conversar?</h2>
-            <p>O número de WhatsApp ainda não foi informado. Para agendar agora, fale diretamente pelo Instagram.</p>
-            <a className="line-button" href={INSTAGRAM_DM_URL} target="_blank" rel="noreferrer" onClick={() => setWhatsAppNoticeOpen(false)}>ABRIR DIRECT <ArrowUpRight size={17} aria-hidden="true" /></a>
+            <span className="section-kicker">CONTATO & AGENDAMENTO</span>
+            <h2 id="contact-dialog-title">Clica aqui e venha ser feliz!</h2>
+            <p>Atendimento exclusivo e de alta precisão. Inicie sua conversa pelo WhatsApp oficial ou garanta seu horário com antecedência.</p>
+            <div className="contact-dialog-actions">
+              <a
+                className="contact-booking-btn"
+                href={WHATSAPP_URL}
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => {
+                  trackBookingClick("modal_agendamento");
+                  setWhatsAppNoticeOpen(false);
+                }}
+              >
+                AGENDAR HORÁRIO <ArrowUpRight size={18} aria-hidden="true" />
+              </a>
+            </div>
           </div>
         </div>
       )}

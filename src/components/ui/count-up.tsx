@@ -7,7 +7,7 @@ export interface CountUpProps {
   className?: string;
 }
 
-export function CountUp({ end, duration = 2600, padLength = 2, className }: CountUpProps) {
+export function CountUp({ end, duration = 900, padLength = 2, className }: CountUpProps) {
   const [count, setCount] = useState(0);
   const elementRef = useRef<HTMLSpanElement>(null);
   const hasAnimated = useRef(false);
