@@ -24,7 +24,7 @@ import { trackBookingClick } from "./utils/analytics";
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 const INSTAGRAM_URL = "https://www.instagram.com/carlos_alexandre_barbeiro/";
-const WHATSAPP_URL = "https://api.whatsapp.com/message/OJAAQOSRN7NLG1?autoload=1&app_absent=0&utm_source=ig";
+const WHATSAPP_URL = "https://wa.me/559492047863?text=Ol%C3%A1%2C%20tenho%20interesse%20em%20agendar%20um%20hor%C3%A1rio!";
 
 const services = [
   {
@@ -696,14 +696,16 @@ export default function App() {
                     <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
                   </svg>
                 </a>
-                <button
-                  type="button"
-                  onClick={() => setWhatsAppNoticeOpen(true)}
+                <a
+                  href={WHATSAPP_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={() => trackBookingClick("footer_whatsapp_icon")}
                   className="footer-social-icon"
                   aria-label="WhatsApp de Carlos Alexandre"
                 >
                   <MessageCircle size={18} strokeWidth={1.4} />
-                </button>
+                </a>
                 <a
                   href="https://maps.google.com/maps?ftid=0x9324cb005feacb21:0x37a0ae01b09f5824"
                   target="_blank"
@@ -736,13 +738,15 @@ export default function App() {
               <div className="footer-contact-info">
                 <div className="footer-info-item">
                   <span className="footer-info-label">WhatsApp</span>
-                  <button
-                    type="button"
-                    onClick={() => setWhatsAppNoticeOpen(true)}
+                  <a
+                    href={WHATSAPP_URL}
+                    target="_blank"
+                    rel="noreferrer"
+                    onClick={() => trackBookingClick("footer_whatsapp_link")}
                     className="footer-text-btn"
                   >
                     Conversar no WhatsApp
-                  </button>
+                  </a>
                 </div>
                 <div className="footer-info-item">
                   <span className="footer-info-label">Instagram</span>
